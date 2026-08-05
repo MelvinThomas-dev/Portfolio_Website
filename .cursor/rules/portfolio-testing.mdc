@@ -1,0 +1,46 @@
+---
+description: How to test the portfolio frontend and backend
+globs: frontend/**/*,backend/**/*
+alwaysApply: false
+---
+
+# Portfolio Testing
+
+## Backend
+
+```bash
+cd backend
+dotnet build
+dotnet run
+```
+
+Default dev URL: `http://localhost:5000` (check `launchSettings.json`).
+
+| Endpoint | Method | Auth | Expected |
+|----------|--------|------|----------|
+| `/health` | GET | No | `{ status: "healthy" }` |
+| `/api/analytics/visit` | POST | No | 200, JSON body with visit recorded |
+| `/api/contact` | POST | No | 400 on empty body; 200 on valid payload |
+| `/api/auth/login` | POST | No | 401 on bad creds; JWT on success (dev: `admin` / `admin123`) |
+| `/api/analytics/dashboard` | GET | Bearer JWT | 401 without token; stats JSON with token |
+
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run build
+npm run dev
+```
+
+- Build must succeed with zero errors
+- App loads at `http://localhost:5173/Portfolio_Website/`
+- Admin login at `/Portfolio_Website/admin`
+- Verify favicon, social icon links, and responsive layout at 375px / 768px widths
+
+## Full smoke test
+
+1. `dotnet build` && `npm run build` — both must pass
+2. Start backend, POST a visit, GET dashboard after login
+3. Submit contact form with valid data (or expect validation errors)
+4. Confirm dashboard shows normalized country/city labels (not raw `"Local"`)

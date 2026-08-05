@@ -1,0 +1,39 @@
+---
+description: GitHub Pages and Render deployment notes for the portfolio
+alwaysApply: false
+---
+
+# Portfolio Deployment
+
+## Frontend — GitHub Pages
+
+- **Base path**: `/Portfolio_Website/` (set in `vite.config.js` and `BrowserRouter basename`)
+- **CI**: `.github/workflows/deploy-frontend.yml` builds and deploys to `gh-pages`
+- **Env**: Set `VITE_API_BASE_URL` to the production API URL at build time
+- **Favicon**: `frontend/public/favicon.svg` — referenced in `index.html` with base path prefix
+
+## Backend — Render (recommended) or Azure
+
+1. Deploy `backend/` as a Web Service (.NET 8)
+2. Set environment variables:
+   - `DATABASE_URL` — PostgreSQL connection string
+   - `JWT_SECRET` — min 32 characters
+   - `ADMIN_USERNAME`, `ADMIN_PASSWORD` or `ADMIN_PASSWORD_HASH`
+   - `CORS_ORIGIN` — `https://<username>.github.io` (comma-separate multiple origins)
+   - `SENDGRID_API_KEY` or email provider key
+3. Health check path: `/health`
+
+## CORS
+
+Backend `Cors:Origins` must include the GitHub Pages origin exactly (no trailing slash on origin).
+
+## LinkedIn UTM tracking
+
+Share URL: `https://<username>.github.io/Portfolio_Website/?utm_source=linkedin&utm_medium=social`
+
+## Post-deploy checklist
+
+- [ ] `/health` returns 200 on Render
+- [ ] Contact form sends email (or logs in dev)
+- [ ] Analytics visits appear in admin dashboard with real geo in production
+- [ ] GitHub Pages site loads assets under `/Portfolio_Website/`

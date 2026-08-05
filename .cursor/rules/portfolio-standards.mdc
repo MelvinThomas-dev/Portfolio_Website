@@ -1,0 +1,35 @@
+---
+description: Coding standards for the Melvin Thomas portfolio project
+alwaysApply: true
+---
+
+# Portfolio Coding Standards
+
+## Stack
+
+- **Frontend**: React 19 + Vite, deployed to GitHub Pages at `/Portfolio_Website/`
+- **Backend**: ASP.NET Core 8 Web API, SQLite (dev) / PostgreSQL (prod)
+
+## Conventions
+
+- Content lives in `frontend/src/data/resumeContent.js` — edit copy there, not inline in components
+- API calls go through `frontend/src/services/api.js`; use `VITE_API_BASE_URL` for the backend URL
+- Use existing CSS variables in `index.css`; avoid inline styles unless required (e.g. Three.js canvas)
+- Admin routes (`/admin`, `/admin/dashboard`) are private — never link from public navbar
+
+## React
+
+- Functional components with hooks only
+- Lazy-load heavy deps (Three.js) and disable on mobile / `prefers-reduced-motion`
+- Analytics failures must not break UX — catch silently in `useAnalytics`
+
+## Backend
+
+- Enrich visitor metadata via `IVisitorMetadataService`, not in controllers
+- Use `GeoLocationService.NormalizeLocationLabel()` for dashboard location display
+- Private/localhost IPs return `"Local Development"`, not `"Local"`
+- JWT required on `/api/analytics/dashboard`; rate-limit contact submissions
+
+## Do not edit
+
+- `.cursor/plans/` plan files
