@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Melvin Thomas Portfolio
 
 Recruiter-focused portfolio site built with **React (Vite)** on GitHub Pages and an **ASP.NET Core 8 Web API** for contact form delivery, visitor analytics, and a private admin dashboard.
